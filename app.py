@@ -1,3 +1,30 @@
+# =========================
+# HEADER (SIFY STYLE)
+# =========================
+def render_header(logo_uri: str | None, dc_uri: str | None):
+    header_html = f'''
+    <div class="sify-header">
+        <div>
+            {('<img src="' + logo_uri + '" alt="Sify" style="height:46px;">') if logo_uri else ''}
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:2px;">
+            <div class="sify-header-title">
+                AI-Driven Chiller Health Monitoring System
+            </div>
+            <div class="sify-header-subtitle">
+                MUM-03-T5-L1 | Sify Infiniti Spaces Limited – Tech Park, Rabale, Navi Mumbai
+            </div>
+        </div>
+
+        <div style="margin-left:auto;">
+            {('<img src="' + dc_uri + '" alt="Sify DC" style="height:64px; border-radius:10px;">') if dc_uri else ''}
+        </div>
+    </div>
+    '''
+    # IMPORTANT: unsafe_allow_html=True (otherwise you'll see raw <div> text)
+    st.markdown(header_html, unsafe_allow_html=True)
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -321,21 +348,10 @@ def set_custom_background_and_header():
     dc_uri = _img_to_data_uri("sifydcimage.png")
 
     header_html = f"""
-    <div style="display:flex; align-items:center; width:100%;">
-
-    <div style="display:flex; flex-direction:column; gap:2px;">
-        <div class="sify-header-title">
-            AI-Driven Chiller Health Monitoring System
-        </div>
-        <div class="sify-header-subtitle">
-            MUM-03-T5-L1 | Sify Infiniti Spaces Limited – Tech Park, Rabale, Navi Mumbai
-        </div>
-    </div>
-
-    <div style="margin-left:auto;"></div>
-
-</div>
-
+            {'<img src="' + logo_uri + '" alt="Sify" style="height:46px;">' if logo_uri else ''}
+                AI-Driven Chiller Health Monitoring System
+                MUM-03-T5-L1 | Sify Infiniti Spaces Limited – Tech Park, Rabale, Navi Mumbai
+            {'<img src="' + dc_uri + '" alt="Sify DC" style="height:64px; border-radius:10px;">' if dc_uri else ''}
 
     """
     st.markdown(header_html, unsafe_allow_html=True)
@@ -1084,22 +1100,6 @@ def render_chiller_grid_3x10(power_df: pd.DataFrame, anomaly_df: pd.DataFrame, d
                 # Build card body
                 sp_val = st.session_state.get(f"sp_{ch}", 21.0)
                 card_html = f"""
-                <div class="ch-card">
-                    <div class="ch-top">{ch}</div>
-                    <div class="{status_html}">{status_txt}</div>
-                    <div class="ch-body">
-                        <div><span class="ch-k">Setpoint:</span> <span class="ch-v">{_safe_num(sp_val, "{:.1f}", "°C")}</span></div>
-                        <div><span class="ch-k">Supply:</span> <span class="ch-v">{_safe_num(supply, "{:.2f}", "°C")}</span></div>
-                        <div><span class="ch-k">Inlet:</span> <span class="ch-v">{_safe_num(inlet, "{:.2f}", "°C")}</span></div>
-                        <div><span class="ch-k">Outlet:</span> <span class="ch-v">{_safe_num(outlet, "{:.2f}", "°C")}</span></div>
-                        <div><span class="ch-k">Ambient:</span> <span class="ch-v">{_safe_num(ambient, "{:.2f}", "°C")}</span></div>
-                        <div style="margin-top:6px;"></div>
-                        <div><span class="ch-k">Comp-1:</span> <span class="ch-v">{_safe_num(comp1, "{:.0f}", "%")}</span></div>
-                        <div><span class="ch-k">Comp-2:</span> <span class="ch-v">{_safe_num(comp2, "{:.0f}", "%")}</span></div>
-                        <div><span class="ch-k">Power:</span> <span class="ch-v">{_safe_num(power_show, "{:.1f}", " kW")}</span></div>
-                        <div><span class="ch-k">Flow:</span> <span class="ch-v">{_safe_num(flow, "{:.2f}", " m³/hr")}</span></div>
-                    </div>
-                </div>
                 """
                 st.markdown(card_html, unsafe_allow_html=True)
 
@@ -1260,13 +1260,11 @@ def display_issue_cards(issues):
 
         st.markdown(
             f"""
-            <div style="background-color:{bg_color}; border-left: 6px solid {border_color};
                 padding: 15px; margin: 10px 0; border-radius: 5px; color: {text_color};">
                 <h3 style="margin:0;">{chiller_id} — Severity: {severity}</h3>
                 <ul style="margin: 5px 0 0 15px;">
                     {issue_list_html}
                 </ul>
-            </div>
             """,
             unsafe_allow_html=True,
         )
@@ -1417,7 +1415,6 @@ def display_maintenance_cards(maintenance_df):
         nd_str = nd.strftime("%Y-%m-%d") if pd.notna(nd) else "-"
         st.markdown(
             f"""
-            <div style="background-color:{bg_color}; border-left: 6px solid {border_color};
                 padding: 15px; margin: 10px 0; border-radius: 5px; color: {text_color};">
                 <h3 style="margin:0;">Chiller {row['chiller_id']} - {row['priority']} Priority</h3>
                 <p><strong>Maintenance Type:</strong> {row['maintenance_type']}</p>
@@ -1426,7 +1423,6 @@ def display_maintenance_cards(maintenance_df):
                 <p><strong>Avg Efficiency:</strong> {_safe_num(row['avg_efficiency'], "{:.3f}", "")}</p>
                 <p><strong>Efficiency Trend:</strong> {_safe_num(row['efficiency_trend'], "{:+.3f}", "")}</p>
                 <p><strong>Compressor Balance:</strong> {_safe_num(row['compressor_imbalance'], "{:.1f}", "")}</p>
-            </div>
             """,
             unsafe_allow_html=True,
         )
