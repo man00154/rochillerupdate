@@ -321,22 +321,21 @@ def set_custom_background_and_header():
     dc_uri = _img_to_data_uri("sifydcimage.png")
 
     header_html = f"""
-    <div class="sify-header">
-        <div>
-            {'<img src="' + logo_uri + '" alt="Sify" style="height:46px;">' if logo_uri else ''}
+    <div style="display:flex; align-items:center; width:100%;">
+
+    <div style="display:flex; flex-direction:column; gap:2px;">
+        <div class="sify-header-title">
+            AI-Driven Chiller Health Monitoring System
         </div>
-        <div style="display:flex; flex-direction:column; gap:2px;">
-            <div class="sify-header-title">
-                AI-Driven Chiller Health Monitoring System
-            </div>
-            <div class="sify-header-subtitle">
-                MUM-03-T5-L1 | Sify Infiniti Spaces Limited – Tech Park, Rabale, Navi Mumbai
-            </div>
-        </div>
-        <div style="margin-left:auto;">
-            {'<img src="' + dc_uri + '" alt="Sify DC" style="height:64px; border-radius:10px;">' if dc_uri else ''}
+        <div class="sify-header-subtitle">
+            MUM-03-T5-L1 | Sify Infiniti Spaces Limited – Tech Park, Rabale, Navi Mumbai
         </div>
     </div>
+
+    <div style="margin-left:auto;"></div>
+
+</div>
+
 
     """
     st.markdown(header_html, unsafe_allow_html=True)
