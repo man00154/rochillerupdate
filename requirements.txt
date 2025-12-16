@@ -1,0 +1,11 @@
+streamlit>=1.36
+pandas>=2.1
+numpy>=1.26
+requests>=2.31
+pytz>=2024.1
+streamlit-autorefresh>=1.0.1
+plotly>=5.20
+python-dotenv>=1.0.1
+openpyxl>=3.1
+# Optional offline TTS (works only if the OS has a speech engine)
+pyttsx3>=2.90
